@@ -7,7 +7,7 @@ name="nginx"
 baseDir="."
 logsDir="$baseDir/log"
 nginx="/usr/local/sbin/nginx"
-nginxConf="`pwd`/components/nginx/conf/nginx.conf"
+nginxConf="`pwd`/components/nginx-component/conf/nginx.conf"
 pidFile="$logsDir/nginx.pid"
 
 startStop $name $pidFile $1 $0
