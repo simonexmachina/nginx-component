@@ -1,9 +1,11 @@
 {
   "name": "nginx-component",
-  "repo": "simonvwade/nginx-component",
+  "repo": "simonwade/nginx-component",
   "description": "Simple Nginx config and scripts for development use",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "start-stop.sh": "git@github.com:simonwade/start-stop.sh.git"
+  },
   "development": {}
 }
