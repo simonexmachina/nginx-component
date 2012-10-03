@@ -1,0 +1,42 @@
+#!/bin/bash
+
+baseDir="/Users/simonwade/dev/Workspace/v2-ea-auctions/client-app"
+componentDir="$baseDir/components/nginx"
+logsDir="$baseDir/log"
+nginx="/usr/local/sbin/nginx"
+nginxConf="$componentDir/conf/nginx.conf"
+pidFile="$logsDir/nginx.pid"
+
+stopOrRestart() {
+  pidFile=$1
+  action=$2
+  command=$3
+
+  if [ -z "$action" ]; then
+    echo "Usage: $3 <start|stop|restart>"
+    exit 1
+  fi
+  if [ -f "$pidFile" ]; then
+    pid=`cat $pidFile`
+  fi
+  if [ "$action" == "stop" -o "$action" == "restart" ]; then
+    if [ "$pid" ]; then
+      kill $pid && echo "Killed $pid" && sleep 1
+      if [ -f $pidFile ]; then
+        rm $pidFile
+      fi
+    else
+      echo "No PID found in $pidFile"
+    fi
+    if [ $? -ne 0 -o "$action" == "stop" ]; then
+      exit $?
+    fi
+  elif [ "$pid" ]; then
+    echo "PID file $pidFile already exists"
+    echo "Run '$command stop|restart' to stop or restart"
+    exit 1
+  fi
+}
+
+stopOrRestart "$pidFile" "$1" "$0"
+$nginx -c $nginxConf && echo "Started Nginx"

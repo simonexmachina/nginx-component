@@ -1,0 +1,9 @@
+{
+  "name": "nginx-component",
+  "repo": "simonvwade/nginx-component",
+  "description": "Simple Nginx config and scripts for development use",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {}
+}
