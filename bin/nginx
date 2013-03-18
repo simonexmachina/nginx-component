@@ -4,12 +4,17 @@ cd "$(dirname "$(dirname "$(dirname "$(dirname "$0")" )" )" )"
 source ./components/start-stop.sh/start-stop.sh
 
 name="nginx"
-baseDir="."
-logsDir="$baseDir/log"
 nginx="/usr/local/sbin/nginx"
-nginxConf="`pwd`/components/nginx-component/conf/nginx.conf"
-pidFile="$logsDir/nginx.pid"
+nginxConf="$2"
+pidFile="$3"
 
-startStop $name $pidFile $1 $0
-port=`cat $nginxConf | egrep '^[^#]+listen' | sed -e 's/[^0-9]//g'`
-$nginx -c $nginxConf && echo "$name listening on port $port"
+if [ -z "$nginxConf" ]; then
+  nginxConf="`pwd`/components/nginx-component/conf/nginx.conf"
+fi
+if [ -z "$pidFile" ]; then
+  pidFile="`pwd`/log/nginx.pid"
+fi
+
+startStop "$name" "$pidFile" $1 $0
+port=`cat "$nginxConf" | egrep '^[^#]+listen' | sed -e 's/[^0-9]//g'`
+$nginx -c "$nginxConf" && echo "$name listening on port $port"
